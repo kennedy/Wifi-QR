@@ -6,12 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+
 </head>
 
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.qrcode.min.js"></script>
+    <div id="qrcode"></div>
+    <form id="qrform" action="index.html">
+        <input type="text" name="ssid" id="ssid" placeholder="Super Wifi Name">
+        <input type="text" name="wpaPassword" id="Password" minlength="8" placeholder="SuperP@55W0rd123">
+        <input type="submit" value="Generate">
+    </form>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#qrform").submit(function (event) {
+                event.preventDefault();
+                const $inputs = $(this).find("input").serializeArray()
+                console.log($inputs["ssid"]);
+                text = "";
+                if ($inputs["ssid"] != undefined) {
 
+                } else {
 
+                }
+                $("#qrcode").empty();
+                $("#qrcode").qrcode({
+                    text: `WIFI:S:Super Wifi Name;T:WPA;P:SuperP@55W0rd123;;`
+                })
+                return false;
+            });
+            $("#qrform").submit();
+        });
+    </script>
 </body>
 
 </html>
