@@ -6,11 +6,25 @@
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Wifi QR Code</title>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.min.css">
     <script type="text/javascript" src="jquery.qrcode.min.js"></script>
-    <style>@page { size: letter }</style>
+    <style>
+        @page{
+size: letter;
+margin: 1pt;
+}
+
+    body.letter
+    {
+        size: letter;
+        background-color: darkgreen;
+        margin: 10%;
+        width: inherit;
+        height: 100%;
+    }
+
+    </style>
 </head>
 
 <body class="letter">
@@ -21,25 +35,36 @@
             <input type="text" name="wpaPassword" id="password" minlength="8" placeholder="SuperP@55W0rd123">
             <input type="submit" value="Generate">
         </form>
+        <p id="qr_plaintext"></p>
     </section>
     <script type="text/javascript">
+        function make_qr() {
+
+        }
         $(document).ready(function () {
             $("#qrform").submit(function (event) {
                 event.preventDefault();
-                const $inputs = $(this).find("input").serializeArray();
                 text = ""
                 if (event.target.ssid.value != "" && event.target.password.value != "") {
                     text = `WIFI:S:${event.target.ssid.value};T:WPA;P:${event.target.password.value};;`;
                 } else {
                     text = `WIFI:S:Super Wifi Name;T:WPA;P:SuperP@55W0rd123;;`;
                 }
+                const $qr_plaintext = $("#qr_plaintext")
+                $qr_plaintext.text(text)
+                const $body_target = $("body")
                 $("#qrcode").empty();
                 $("#qrcode").qrcode({
-                    text: text
+                    text: text,
+                    width: $body_target.outerWidth(),
+                    height: $body_target.outerWidth(),
                 })
-                return false;
+                make_qr()
             });
             $("#qrform").submit();
+        });
+        $(document).resize(function () {
+            make_qr()
         });
     </script>
 </body>
